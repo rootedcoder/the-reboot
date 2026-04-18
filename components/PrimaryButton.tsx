@@ -5,9 +5,10 @@ type Props = {
   label: string;
   onPress: () => void;
   style?: ViewStyle;
+  disabled?: boolean;
 };
 
-export function PrimaryButton({ label, onPress, style }: Props) {
+export function PrimaryButton({ label, onPress, style, disabled = false }: Props) {
   const scale = useRef(new Animated.Value(1)).current;
 
   const animateTo = (toValue: number) => {
@@ -16,11 +17,12 @@ export function PrimaryButton({ label, onPress, style }: Props) {
 
   return (
     <Pressable
-      onPressIn={() => animateTo(0.97)}
-      onPressOut={() => animateTo(1)}
+      onPressIn={() => !disabled && animateTo(0.97)}
+      onPressOut={() => !disabled && animateTo(1)}
       onPress={onPress}
+      disabled={disabled}
     >
-      <Animated.View style={[styles.button, style, { transform: [{ scale }] }]}>
+      <Animated.View style={[styles.button, disabled && styles.disabled, style, { transform: [{ scale }] }]}>
         <Text style={styles.text}>{label}</Text>
       </Animated.View>
     </Pressable>
@@ -37,4 +39,5 @@ const styles = StyleSheet.create({
     minHeight: 52,
   },
   text: { color: '#fff', fontWeight: '700', fontSize: 16 },
+  disabled: { opacity: 0.55 },
 });

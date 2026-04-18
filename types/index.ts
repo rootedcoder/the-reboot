@@ -17,7 +17,7 @@ export type Stat = {
 export type StatsMap = Record<StatKey, Stat>;
 
 export type UserProfile = {
-  username: string;
+  username?: string;
   age?: number;
   weight?: number;
   height?: number;
@@ -43,6 +43,7 @@ export type Skill = {
 
 export type WorkoutStep = {
   title: string;
+  instruction?: string;
   duration: number;
   rest: number;
 };

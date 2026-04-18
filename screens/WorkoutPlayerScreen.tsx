@@ -7,7 +7,7 @@ import { useAppStore } from '../store/useAppStore';
 import { LevelUpOverlay } from '../components/LevelUpOverlay';
 
 export function WorkoutPlayerScreen() {
-  const workout = useAppStore((s) => s.workouts[0]);
+  const workout = useAppStore((s) => s.currentWorkout ?? s.workouts[0]);
   const gainStatXp = useAppStore((s) => s.gainStatXp);
   const { currentStep, isRest, timeLeft, isRunning, start, pause, skip, progressText, stepIndex } = useWorkoutPlayer(workout);
   const [questComplete, setQuestComplete] = useState(false);
@@ -45,6 +45,7 @@ export function WorkoutPlayerScreen() {
         <SystemCard title={workout?.title ?? 'No workout'} glow>
           <Text style={styles.progress}>{progressText}</Text>
           <Text style={[styles.exercise, !isRest && styles.activeExercise]}>{currentStep?.title ?? 'No active step'}</Text>
+          {!!currentStep?.instruction && <Text style={styles.instruction}>{currentStep.instruction}</Text>}
           <Text style={styles.mode}>{isRest ? 'REST' : 'WORK'}</Text>
           <Animated.Text style={[styles.timer, { transform: [{ scale: timerScale }] }]}>{timeLeft}s</Animated.Text>
         </SystemCard>
@@ -65,6 +66,7 @@ const styles = StyleSheet.create({
   exercise: { color: '#fff', fontSize: 24, fontWeight: '800', marginBottom: 10 },
   activeExercise: { textShadowColor: '#22d3ee', textShadowRadius: 12 },
   mode: { color: '#22d3ee', fontWeight: '700', fontSize: 16 },
+  instruction: { color: '#94a3b8', marginBottom: 6 },
   timer: { color: '#fff', fontSize: 56, fontWeight: '800', marginVertical: 12 },
   btn: { marginBottom: 8 },
   altBtn: { marginBottom: 8, backgroundColor: '#334155' },

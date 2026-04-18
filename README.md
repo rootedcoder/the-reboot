@@ -7,10 +7,10 @@ A React Native (Expo + TypeScript) offline-first RPG fitness system inspired by 
 - Mock auth (login/register + guest mode)
 - Two-step setup flow with optional capability scan
 - Stat system (level/xp/progress)
-- User level + stat points + manual stat upgrades
+- Assessment-gated level progression
 - Skill system with default and custom skills
 - Target stat system
-- Static workout quest library from local JSON-like data
+- AI workout generation using OpenAI API
 - Workout player with timer / pause / skip / auto-next
 - Zustand + AsyncStorage persistence
 
@@ -20,6 +20,7 @@ A React Native (Expo + TypeScript) offline-first RPG fitness system inspired by 
 - Zustand
 - React Navigation
 - AsyncStorage
+- OpenAI Chat Completions API
 
 ## Project structure
 
@@ -28,9 +29,18 @@ A React Native (Expo + TypeScript) offline-first RPG fitness system inspired by 
 - `store/`
 - `features/`
 - `hooks/`
+- `services/`
 - `utils/`
 - `data/`
 - `types/`
+
+## Environment setup
+
+Create `.env`:
+
+```bash
+OPENAI_API_KEY=your_openai_api_key_here
+```
 
 ## Run
 

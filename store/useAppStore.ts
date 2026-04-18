@@ -29,6 +29,7 @@ type AppState = {
   skills: Skill[];
   target?: Target;
   workouts: Workout[];
+  currentWorkout?: Workout;
   lastLevelUpEvent?: LevelUpEvent;
   login: (username: string) => void;
   register: (username: string) => void;
@@ -43,6 +44,8 @@ type AppState = {
   assessStat: (stat: StatKey, payload: AssessmentPayload) => AssessmentResult;
   assessSkill: (skillId: string, payload: AssessmentPayload) => AssessmentResult;
   clearLevelUpEvent: () => void;
+  setCurrentWorkout: (workout: Workout) => void;
+  resetCurrentWorkout: () => void;
 };
 
 const makeDefaultStats = (): StatsMap => ({
@@ -108,6 +111,7 @@ export const useAppStore = create<AppState>()(
       skills: starterSkills,
       target: undefined,
       workouts: workoutLibrary,
+      currentWorkout: workoutLibrary[0],
       lastLevelUpEvent: undefined,
 
       login: (username) =>
@@ -127,6 +131,7 @@ export const useAppStore = create<AppState>()(
           statPoints: 0,
           target: undefined,
           skills: starterSkills,
+          currentWorkout: workoutLibrary[0],
           lastLevelUpEvent: undefined,
         }),
       completeSetup: (profile, capabilityInput) => {
@@ -242,6 +247,8 @@ export const useAppStore = create<AppState>()(
         return result;
       },
       clearLevelUpEvent: () => set({ lastLevelUpEvent: undefined }),
+      setCurrentWorkout: (workout) => set({ currentWorkout: workout }),
+      resetCurrentWorkout: () => set({ currentWorkout: workoutLibrary[0] }),
     }),
     {
       name: 'the-reboot-store',

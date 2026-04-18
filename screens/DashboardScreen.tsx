@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View, Animated } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View, Animated, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,14 +10,28 @@ import { useAppStore } from '../store/useAppStore';
 import { RootStackParamList } from '../features/navigation/RootNavigator';
 import { StatKey } from '../types';
 import { LevelUpOverlay } from '../components/LevelUpOverlay';
+import { generateWorkout } from '../services/aiWorkoutService';
 
 type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
 export function DashboardScreen() {
   const navigation = useNavigation<NavProp>();
-  const { displayName, userLevel, statPoints, stats, target, setTarget, workouts, lastLevelUpEvent, clearLevelUpEvent } = useAppStore((s) => s);
+  const {
+    displayName,
+    userLevel,
+    statPoints,
+    stats,
+    target,
+    setTarget,
+    workouts,
+    skills,
+    setCurrentWorkout,
+    lastLevelUpEvent,
+    clearLevelUpEvent,
+  } = useAppStore((s) => s);
   const [targetStat, setTargetStat] = useState<StatKey>('endurance');
   const [targetLevel, setTargetLevel] = useState('50');
+  const [isGeneratingWorkout, setIsGeneratingWorkout] = useState(false);
   const pulse = useRef(new Animated.Value(0.95)).current;
 
   useEffect(() => {
@@ -34,6 +48,25 @@ export function DashboardScreen() {
     const t = setTimeout(clearLevelUpEvent, 1700);
     return () => clearTimeout(t);
   }, [lastLevelUpEvent, clearLevelUpEvent]);
+
+  const onGenerateWorkout = async () => {
+    try {
+      setIsGeneratingWorkout(true);
+      const generated = await generateWorkout({
+        userStats: stats,
+        targetStat: target?.stat ?? 'endurance',
+        skill: skills[0]?.name,
+      });
+      setCurrentWorkout(generated);
+      navigation.navigate('WorkoutPlayer');
+    } catch (error) {
+      setCurrentWorkout(workouts[0]);
+      Alert.alert('AI Generation Failed', 'Using default quest workout for now.');
+      navigation.navigate('WorkoutPlayer');
+    } finally {
+      setIsGeneratingWorkout(false);
+    }
+  };
 
   return (
     <View style={styles.root}>
@@ -85,9 +118,12 @@ export function DashboardScreen() {
         </SystemCard>
 
         <View style={styles.quickSection}>
+          {isGeneratingWorkout ? <Text style={styles.generating}>Generating AI Workout...</Text> : null}
           <PrimaryButton
-            label={`Quick Start: ${workouts[0]?.title ?? 'Workout'}`}
-            onPress={() => navigation.navigate('WorkoutPlayer')}
+            label={isGeneratingWorkout ? 'Generating...' : 'Start AI Workout'}
+            onPress={onGenerateWorkout}
+            style={isGeneratingWorkout ? styles.disabledBtn : undefined}
+            disabled={isGeneratingWorkout}
           />
         </View>
       </ScrollView>
@@ -120,5 +156,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     backgroundColor: '#0b1220',
   },
+  generating: { color: '#22d3ee', marginBottom: 8, fontWeight: '700' },
+  disabledBtn: { opacity: 0.6 },
   quickSection: { marginBottom: 24 },
 });
