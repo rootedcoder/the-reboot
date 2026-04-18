@@ -1,5 +1,5 @@
-import React from 'react';
-import { Pressable, Text, StyleSheet, ViewStyle } from 'react-native';
+import React, { useRef } from 'react';
+import { Pressable, Text, StyleSheet, ViewStyle, Animated } from 'react-native';
 
 type Props = {
   label: string;
@@ -8,9 +8,21 @@ type Props = {
 };
 
 export function PrimaryButton({ label, onPress, style }: Props) {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const animateTo = (toValue: number) => {
+    Animated.spring(scale, { toValue, useNativeDriver: true, friction: 5 }).start();
+  };
+
   return (
-    <Pressable style={[styles.button, style]} onPress={onPress}>
-      <Text style={styles.text}>{label}</Text>
+    <Pressable
+      onPressIn={() => animateTo(0.97)}
+      onPressOut={() => animateTo(1)}
+      onPress={onPress}
+    >
+      <Animated.View style={[styles.button, style, { transform: [{ scale }] }]}>
+        <Text style={styles.text}>{label}</Text>
+      </Animated.View>
     </Pressable>
   );
 }

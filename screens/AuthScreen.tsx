@@ -14,14 +14,14 @@ export function AuthScreen() {
       <Text style={styles.title}>THE REBOOT</Text>
       <Text style={styles.subtitle}>Awaken your system and begin your ascent.</Text>
       <TextInput
-        placeholder="Hunter Name"
+        placeholder="User Name"
         placeholderTextColor="#6b7280"
         value={username}
         onChangeText={setUsername}
         style={styles.input}
       />
-      <PrimaryButton label="Login" onPress={() => login(username || 'Hunter')} style={styles.btn} />
-      <PrimaryButton label="Register" onPress={() => register(username || 'New Hunter')} style={styles.btn} />
+      <PrimaryButton label="Login" onPress={() => login(username || 'Guest')} style={styles.btn} />
+      <PrimaryButton label="Register" onPress={() => register(username || 'User')} style={styles.btn} />
       <PrimaryButton label="Continue as Guest" onPress={continueAsGuest} style={styles.btnAlt} />
     </View>
   );

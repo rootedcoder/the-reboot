@@ -11,6 +11,7 @@ export type Stat = {
   key: StatKey;
   level: number;
   xp: number;
+  readyForAssessment: boolean;
 };
 
 export type StatsMap = Record<StatKey, Stat>;
@@ -37,6 +38,7 @@ export type Skill = {
   name: string;
   level: number;
   xp: number;
+  readyForAssessment: boolean;
 };
 
 export type WorkoutStep = {
@@ -54,4 +56,19 @@ export type Workout = {
 export type Target = {
   stat: StatKey;
   level: number;
+};
+
+export type LevelUpEvent = {
+  type: 'stat' | 'skill';
+  name: string;
+  level: number;
+  id: string;
+};
+
+export type AssessmentPayload = {
+  reps?: number;
+  distanceKm?: number;
+  timeMin?: number;
+  tapScore?: number;
+  confirmed?: boolean;
 };

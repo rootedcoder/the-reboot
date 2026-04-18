@@ -15,11 +15,9 @@ type NavProp = NativeStackNavigationProp<RootStackParamList>;
 
 export function DashboardScreen() {
   const navigation = useNavigation<NavProp>();
-  const { user, userLevel, statPoints, stats, target, setTarget, workouts } = useAppStore((s) => s);
+  const { displayName, userLevel, statPoints, stats, target, setTarget, workouts, lastLevelUpEvent, clearLevelUpEvent } = useAppStore((s) => s);
   const [targetStat, setTargetStat] = useState<StatKey>('endurance');
   const [targetLevel, setTargetLevel] = useState('50');
-  const [showLevelUp, setShowLevelUp] = useState(false);
-  const previousLevel = useRef(userLevel);
   const pulse = useRef(new Animated.Value(0.95)).current;
 
   useEffect(() => {
@@ -32,26 +30,26 @@ export function DashboardScreen() {
   }, [pulse]);
 
   useEffect(() => {
-    if (userLevel > previousLevel.current) {
-      setShowLevelUp(true);
-      const timer = setTimeout(() => setShowLevelUp(false), 1900);
-      previousLevel.current = userLevel;
-      return () => clearTimeout(timer);
-    }
-    previousLevel.current = userLevel;
-  }, [userLevel]);
+    if (!lastLevelUpEvent) return;
+    const t = setTimeout(clearLevelUpEvent, 1700);
+    return () => clearTimeout(t);
+  }, [lastLevelUpEvent, clearLevelUpEvent]);
 
   return (
     <View style={styles.root}>
-      <LevelUpOverlay level={userLevel} visible={showLevelUp} />
+      <LevelUpOverlay
+        level={lastLevelUpEvent?.level ?? userLevel}
+        visible={!!lastLevelUpEvent}
+        label={lastLevelUpEvent ? `${lastLevelUpEvent.type}: ${lastLevelUpEvent.name}` : undefined}
+      />
       <ScrollView style={styles.container} contentContainerStyle={styles.content}>
         <LinearGradient colors={['rgba(124,58,237,0.35)', 'rgba(34,211,238,0.15)']} style={styles.heroCard}>
-          <Text style={styles.heading}>Welcome, {user?.username ?? 'Hunter'}</Text>
+          <Text style={styles.heading}>Welcome, {displayName}</Text>
           <Text style={styles.heroSub}>SYSTEM ONLINE · ASCENT ACTIVE</Text>
         </LinearGradient>
 
         <Animated.View style={{ transform: [{ scale: pulse }] }}>
-          <SystemCard title="Hunter Rank" glow>
+          <SystemCard title="Rank" glow>
             <Text style={styles.level}>Level {userLevel}</Text>
             <Text style={styles.meta}>Available Stat Points: {statPoints}</Text>
           </SystemCard>
@@ -59,7 +57,10 @@ export function DashboardScreen() {
 
         <SystemCard title="Stat Interface" glow>
           {Object.values(stats).map((stat) => (
-            <StatBar key={stat.key} label={stat.key} stat={stat} />
+            <View key={stat.key}>
+              <StatBar label={stat.key} stat={stat} />
+              {stat.readyForAssessment ? <Text style={styles.ready}>Assessment Available</Text> : null}
+            </View>
           ))}
         </SystemCard>
 
@@ -108,6 +109,7 @@ const styles = StyleSheet.create({
   heading: { color: '#fff', fontSize: 24, fontWeight: '800', marginBottom: 4 },
   heroSub: { color: '#93c5fd', letterSpacing: 1, fontSize: 12, fontWeight: '700' },
   level: { color: '#22d3ee', fontSize: 30, fontWeight: '900', textShadowColor: '#22d3ee', textShadowRadius: 10 },
+  ready: { color: '#facc15', marginTop: -8, marginBottom: 10, fontWeight: '700' },
   meta: { color: '#cbd5e1', marginBottom: 10 },
   input: {
     borderWidth: 1,

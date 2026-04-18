@@ -1,13 +1,14 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, Text } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 type Props = {
   level: number;
   visible: boolean;
+  label?: string;
 };
 
-export function LevelUpOverlay({ level, visible }: Props) {
+export function LevelUpOverlay({ level, visible, label }: Props) {
   const opacity = useRef(new Animated.Value(0)).current;
   const scale = useRef(new Animated.Value(0.8)).current;
 
@@ -34,7 +35,8 @@ export function LevelUpOverlay({ level, visible }: Props) {
       <Animated.View style={{ transform: [{ scale }] }}>
         <LinearGradient colors={['rgba(34,211,238,0.9)', 'rgba(124,58,237,0.95)']} style={styles.banner}>
           <Text style={styles.title}>LEVEL UP</Text>
-          <Text style={styles.level}>Hunter Level {level}</Text>
+          {!!label && <Text style={styles.label}>{label}</Text>}
+          <Text style={styles.level}>Level {level}</Text>
         </LinearGradient>
       </Animated.View>
     </Animated.View>
@@ -68,6 +70,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     letterSpacing: 2,
   },
+  label: { color: '#e2e8f0', marginTop: 4, textTransform: 'uppercase', fontWeight: '700' },
   level: {
     color: '#f8fafc',
     marginTop: 6,
