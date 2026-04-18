@@ -38,3 +38,12 @@ A React Native (Expo + TypeScript) offline-first RPG fitness system inspired by 
 npm install
 npx expo start
 ```
+
+## Dependency troubleshooting
+
+If you hit peer dependency conflicts after upgrading packages, clear old lockfiles and node modules, then reinstall:
+
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
