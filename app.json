@@ -1,0 +1,12 @@
+{
+  "expo": {
+    "name": "THE REBOOT",
+    "slug": "the-reboot",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "dark",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
