@@ -47,3 +47,13 @@ If you hit peer dependency conflicts after upgrading packages, clear old lockfil
 rm -rf node_modules package-lock.json
 npm install
 ```
+
+## Babel preset error fix
+
+If Metro throws `Cannot find module 'babel-preset-expo'`, install dependencies again after cleaning:
+
+```bash
+rm -rf node_modules package-lock.json
+npm install
+npx expo start -c
+```
