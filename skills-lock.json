@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "skills": {
+    "detour-onboarding": {
+      "source": "software-mansion-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/detour/detour-onboarding/SKILL.md",
+      "computedHash": "0ee95b059036151551d2fbc57884bfe6934cac37b133676ed0f8fb9471f0e356"
+    },
+    "expo-horizon": {
+      "source": "software-mansion-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/expo-horizon/SKILL.md",
+      "computedHash": "71653dd73c51221a04a417c5fe4be1744e2a0d45e4eb2d5e98c09a5797fdb98b"
+    },
+    "fishjam": {
+      "source": "software-mansion-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/fishjam/SKILL.md",
+      "computedHash": "65bb9ac20c2ee83bc4b0b4662583fb106955761515aca115d0e8fd8f54c7f32f"
+    },
+    "migrate-to-detour": {
+      "source": "software-mansion-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/detour/migrate-to-detour/SKILL.md",
+      "computedHash": "617cad40d0ecfa3ccf7a2b099cb35e83cc0160a9966ace955b675e294f1a35bb"
+    },
+    "radon-mcp": {
+      "source": "software-mansion-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/radon-mcp/SKILL.md",
+      "computedHash": "09ba1e44f86148ce027b04d2d580d90abcf71a36fd62d43b9dc90962c99fc90b"
+    },
+    "react-native-best-practices": {
+      "source": "software-mansion-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/react-native-best-practices/SKILL.md",
+      "computedHash": "952252e8f7f04b9ac5c97630610ba72ae96872651f3daeabb1b4d10bad0c9d18"
+    },
+    "rnrepo": {
+      "source": "software-mansion-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/rnrepo/SKILL.md",
+      "computedHash": "abc4e0bfb191a75c289184ccd53b6219c5fe10f1835f68d33b38ca385ef45afe"
+    },
+    "typegpu": {
+      "source": "software-mansion-labs/skills",
+      "sourceType": "github",
+      "skillPath": "skills/typegpu/SKILL.md",
+      "computedHash": "df3150a892a1703546d8bf246baef319e25942ada1cf4cedb9bb8f4d259ca248"
+    }
+  }
+}

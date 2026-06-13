@@ -7,7 +7,33 @@ A React Native fitness RPG where real physical benchmarks define your character 
 Full product specification is in `docs/PRODUCT_SPEC.md`. Read it before making any architectural decision.
 
 ## Current phase
-**Phase 1 — Foundation.** Supabase schema, design system, React Query setup. The prototype code in `/screens`, `/store`, `/components` is being replaced — do not build on top of it.
+**Phase 2 — Auth.** Phase 1 foundation is complete. All prototype code deleted. Build the Splash screen, onboarding slides, and Supabase Auth (Google / Apple / Facebook / Email).
+
+### Phase 1 — DONE ✅
+- `src/theme/` — tokens, animations, gradients (all colors, spacing, presets)
+- `src/components/ui/` — Button, Card, GradeBadge, StatBar, SkeletonBox
+- `src/components/animated/` — SpringPressable, AnimatedCard, StaggerList, ScreenWrapper
+- `src/services/supabase.ts` — Supabase client (reads from env)
+- `src/store/auth.store.ts` — Zustand auth session store
+- `src/store/ui.store.ts` — Zustand UI state store
+- `src/navigation/RootNavigator.tsx` — stub navigator (placeholder screens)
+- `App.tsx` — QueryClient + GestureHandler + SafeArea + NavigationContainer + AuthListener
+- All prototype code deleted (`screens/`, `store/`, `components/`, `features/`, `services/`, `hooks/`, `data/`, `utils/`, `types/`)
+- Reanimated 3, Moti, React Query, Supabase JS, Lottie, expo-haptics installed
+
+### What to build next (Phase 2)
+- `src/screens/auth/SplashScreen.tsx` — animated logo, brand intro
+- `src/screens/auth/OnboardingScreen.tsx` — 3–4 swipeable slides with Moti
+- `src/screens/auth/LoginScreen.tsx` — Google, Apple, Facebook, Email via Supabase Auth
+- `src/screens/auth/RegisterScreen.tsx`
+- Wire navigation: Splash → Onboarding (first time) → Login/Register → App
+
+### Key file locations
+- Theme tokens: `src/theme/tokens.ts`
+- Animation presets: `src/theme/animations.ts`
+- Supabase client: `src/services/supabase.ts`
+- Auth state: `src/store/auth.store.ts`
+- Navigation root: `src/navigation/RootNavigator.tsx`
 
 ## Critical rules
 

@@ -9,7 +9,9 @@ const config: ExpoConfig = {
   userInterfaceStyle: 'dark',
   assetBundlePatterns: ['**/*'],
   extra: {
-    openaiApiKey: process.env.OPENAI_API_KEY,
+    supabaseUrl: process.env.SUPABASE_URL,
+    supabaseAnonKey: process.env.SUPABASE_ANON_KEY,
+    // Note: OpenAI key has been moved to Supabase Edge Functions — never in the app bundle
   },
 };
 
